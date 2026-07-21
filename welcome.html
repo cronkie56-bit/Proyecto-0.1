@@ -1081,6 +1081,446 @@
         }
 
         /* =========================
+           ÁREA PRIVADA CIFRADA
+        ========================= */
+
+        .abrir-area-privada {
+            margin-top: 17px;
+            padding: 10px 19px;
+
+            color: #8c8c8c;
+            background: rgba(0, 0, 0, 0.82);
+
+            border: 1px solid #292929;
+            border-radius: 7px;
+
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 1.4px;
+            text-transform: uppercase;
+
+            cursor: pointer;
+            pointer-events: auto;
+
+            transition:
+                color 0.22s ease,
+                border-color 0.22s ease,
+                box-shadow 0.22s ease,
+                transform 0.14s ease;
+        }
+
+        .abrir-area-privada:hover {
+            color: #d9b5ff;
+            border-color: rgba(172, 87, 225, 0.82);
+
+            box-shadow:
+                0 0 5px rgba(161, 71, 216, 0.4),
+                0 0 13px rgba(121, 38, 170, 0.24),
+                inset 0 0 8px rgba(140, 50, 190, 0.08);
+
+            transform: translateY(-1px);
+        }
+
+        .abrir-area-privada:active {
+            transform: translateY(0) scale(0.98);
+        }
+
+        .area-privada-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 120;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            padding: 20px;
+
+            background: rgba(0, 0, 0, 0.94);
+            backdrop-filter: blur(7px);
+
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+
+            transition:
+                opacity 0.25s ease,
+                visibility 0.25s ease;
+        }
+
+        .area-privada-overlay.visible {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+
+        .area-privada-caja {
+            position: relative;
+
+            width: min(440px, 94vw);
+            max-height: 92vh;
+            padding: 31px 29px 27px;
+
+            background:
+                radial-gradient(
+                    circle at top,
+                    rgba(54, 22, 72, 0.12),
+                    transparent 42%
+                ),
+                #050505;
+
+            border: 1px solid rgba(108, 54, 135, 0.72);
+            border-radius: 15px;
+
+            box-shadow:
+                0 0 7px rgba(111, 42, 149, 0.34),
+                0 0 24px rgba(70, 18, 96, 0.2);
+
+            overflow-y: auto;
+
+            transform: translateY(8px) scale(0.985);
+
+            transition: transform 0.25s ease;
+        }
+
+        .area-privada-overlay.visible
+        .area-privada-caja {
+            transform: translateY(0) scale(1);
+        }
+
+        .cerrar-area-privada {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+
+            width: 31px;
+            height: 31px;
+
+            color: #777777;
+            background: transparent;
+
+            border: 1px solid #292929;
+            border-radius: 7px;
+
+            font-size: 17px;
+            line-height: 1;
+
+            cursor: pointer;
+
+            transition:
+                color 0.2s ease,
+                border-color 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .cerrar-area-privada:hover {
+            color: #ff4747;
+            border-color: rgba(255, 50, 50, 0.75);
+
+            box-shadow:
+                0 0 7px rgba(255, 35, 35, 0.25);
+        }
+
+        .privada-titulo {
+            margin: 0;
+            padding: 0 35px;
+
+            color: #efefef;
+
+            font-size: 19px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-align: center;
+        }
+
+        .privada-subtitulo {
+            margin: 10px auto 21px;
+
+            max-width: 340px;
+
+            color: #777777;
+
+            font-size: 11px;
+            line-height: 1.55;
+            text-align: center;
+        }
+
+        .privada-usuario {
+            color: #b98bd4;
+            font-weight: 600;
+        }
+
+        .privada-formulario {
+            display: flex;
+            flex-direction: column;
+            gap: 11px;
+        }
+
+        .privada-formulario.oculto,
+        .privada-menu.oculto {
+            display: none;
+        }
+
+        .privada-campo {
+            width: 100%;
+            height: 44px;
+            padding: 0 14px;
+
+            color: #f2f2f2;
+            background: #101010;
+
+            border: 1px solid #2d2d2d;
+            border-radius: 8px;
+
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 14px;
+
+            outline: none;
+
+            transition:
+                border-color 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .privada-campo:focus {
+            border-color: #704087;
+
+            box-shadow:
+                0 0 0 2px rgba(118, 57, 145, 0.08);
+        }
+
+        .privada-campo::placeholder {
+            color: #5d5d5d;
+        }
+
+        .privada-boton-principal,
+        .privada-boton-secundario {
+            width: 100%;
+            min-height: 42px;
+            padding: 10px 14px;
+
+            border-radius: 8px;
+
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+
+            cursor: pointer;
+
+            transition:
+                color 0.2s ease,
+                background 0.2s ease,
+                border-color 0.2s ease,
+                box-shadow 0.2s ease,
+                transform 0.12s ease;
+        }
+
+        .privada-boton-principal {
+            color: #e7d7f1;
+            background: #211626;
+
+            border: 1px solid #5d356d;
+        }
+
+        .privada-boton-principal:hover {
+            color: #ffffff;
+            background: #2b1932;
+            border-color: #8b4ea3;
+
+            box-shadow:
+                0 0 9px rgba(141, 68, 166, 0.24);
+        }
+
+        .privada-boton-secundario {
+            color: #777777;
+            background: transparent;
+
+            border: 1px solid #2d2d2d;
+        }
+
+        .privada-boton-secundario:hover {
+            color: #c8c8c8;
+            border-color: #505050;
+        }
+
+        .privada-boton-principal:active,
+        .privada-boton-secundario:active {
+            transform: scale(0.985);
+        }
+
+        .privada-boton-principal:disabled,
+        .privada-boton-secundario:disabled {
+            opacity: 0.48;
+            cursor: wait;
+        }
+
+        .privada-aviso {
+            margin: 2px 0 0;
+
+            color: #626262;
+
+            font-size: 10px;
+            line-height: 1.5;
+            text-align: center;
+        }
+
+        .privada-estado {
+            min-height: 17px;
+            margin: 11px 0 0;
+
+            color: #888888;
+
+            font-size: 11px;
+            line-height: 1.45;
+            text-align: center;
+        }
+
+        .privada-estado.error {
+            color: #ff5f6f;
+        }
+
+        .privada-estado.correcto {
+            color: #55d88b;
+        }
+
+        .privada-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 13px;
+        }
+
+        .privada-indicador {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+
+            margin-bottom: 3px;
+
+            color: #65d994;
+
+            font-size: 10px;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+        }
+
+        .privada-indicador::before {
+            content: "";
+
+            width: 7px;
+            height: 7px;
+
+            background: #50d385;
+            border-radius: 50%;
+
+            box-shadow:
+                0 0 5px rgba(80, 211, 133, 0.65),
+                0 0 11px rgba(80, 211, 133, 0.25);
+        }
+
+        .privada-opciones {
+            display: grid;
+            grid-template-columns:
+                repeat(3, minmax(0, 1fr));
+            gap: 9px;
+        }
+
+        .privada-opcion {
+            min-height: 83px;
+            padding: 13px 8px;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 7px;
+
+            color: #999999;
+            background: #0d0d0d;
+
+            border: 1px solid #292929;
+            border-radius: 9px;
+
+            cursor: pointer;
+
+            transition:
+                color 0.2s ease,
+                border-color 0.2s ease,
+                background 0.2s ease,
+                box-shadow 0.2s ease,
+                transform 0.14s ease;
+        }
+
+        .privada-opcion:hover {
+            color: #eadcf2;
+            background: #121014;
+            border-color: #694079;
+
+            box-shadow:
+                0 0 9px rgba(110, 58, 130, 0.17);
+
+            transform: translateY(-2px);
+        }
+
+        .privada-opcion-icono {
+            font-size: 21px;
+            line-height: 1;
+        }
+
+        .privada-opcion-nombre {
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .privada-opcion-estado {
+            color: #555555;
+            font-size: 8px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .privada-separador {
+            height: 1px;
+            margin: 2px 0;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    transparent,
+                    #292929,
+                    transparent
+                );
+        }
+
+        @media (max-width: 450px) {
+            .area-privada-caja {
+                padding: 29px 19px 23px;
+            }
+
+            .privada-opciones {
+                grid-template-columns: 1fr;
+            }
+
+            .privada-opcion {
+                min-height: 62px;
+
+                flex-direction: row;
+                justify-content: flex-start;
+
+                padding: 12px 17px;
+            }
+
+            .privada-opcion-estado {
+                margin-left: auto;
+            }
+        }
+
+        /* =========================
            BOTÓN CERRAR SESIÓN
         ========================= */
 
@@ -1576,6 +2016,202 @@
         Cerrar sesión
     </button>
 
+    <!-- ÁREA PRIVADA -->
+    <section
+        class="area-privada-overlay"
+        id="areaPrivadaOverlay"
+        aria-hidden="true"
+    >
+        <div
+            class="area-privada-caja"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="tituloAreaPrivada"
+        >
+            <button
+                class="cerrar-area-privada"
+                id="cerrarAreaPrivada"
+                type="button"
+                aria-label="Cerrar área privada"
+            >
+                ×
+            </button>
+
+            <h2
+                class="privada-titulo"
+                id="tituloAreaPrivada"
+            >
+                ÁREA PRIVADA
+            </h2>
+
+            <p class="privada-subtitulo">
+                Protección adicional para
+                <span
+                    class="privada-usuario"
+                    id="usuarioAreaPrivada"
+                >
+                    usuario
+                </span>.
+                Esta contraseña es diferente a la del inicio de sesión.
+            </p>
+
+            <!-- PRIMERA CONFIGURACIÓN -->
+            <form
+                class="privada-formulario oculto"
+                id="formCrearClavePrivada"
+                autocomplete="off"
+            >
+                <input
+                    class="privada-campo"
+                    id="nuevaClavePrivada"
+                    type="password"
+                    minlength="8"
+                    maxlength="128"
+                    placeholder="Crea una contraseña privada"
+                    autocomplete="new-password"
+                    required
+                >
+
+                <input
+                    class="privada-campo"
+                    id="confirmarClavePrivada"
+                    type="password"
+                    minlength="8"
+                    maxlength="128"
+                    placeholder="Confirma la contraseña privada"
+                    autocomplete="new-password"
+                    required
+                >
+
+                <button
+                    class="privada-boton-principal"
+                    id="botonCrearClavePrivada"
+                    type="submit"
+                >
+                    Crear acceso privado
+                </button>
+
+                <p class="privada-aviso">
+                    La contraseña no se guarda ni se envía.
+                    Si la olvidas, no podrá recuperarse.
+                </p>
+            </form>
+
+            <!-- DESBLOQUEO -->
+            <form
+                class="privada-formulario oculto"
+                id="formDesbloquearArea"
+                autocomplete="off"
+            >
+                <input
+                    class="privada-campo"
+                    id="clavePrivadaAcceso"
+                    type="password"
+                    maxlength="128"
+                    placeholder="Contraseña del área privada"
+                    autocomplete="current-password"
+                    required
+                >
+
+                <button
+                    class="privada-boton-principal"
+                    id="botonDesbloquearArea"
+                    type="submit"
+                >
+                    Desbloquear
+                </button>
+
+                <p class="privada-aviso">
+                    El acceso se bloqueará nuevamente al cerrar
+                    esta ventana o recargar la página.
+                </p>
+            </form>
+
+            <!-- MENÚ PROTEGIDO -->
+            <section
+                class="privada-menu oculto"
+                id="menuAreaPrivada"
+                aria-label="Menú privado"
+            >
+                <div class="privada-indicador">
+                    Acceso desbloqueado
+                </div>
+
+                <div class="privada-opciones">
+                    <button
+                        class="privada-opcion"
+                        type="button"
+                        data-modulo-privado="Notas"
+                    >
+                        <span class="privada-opcion-icono">
+                            ✎
+                        </span>
+
+                        <span class="privada-opcion-nombre">
+                            Notas
+                        </span>
+
+                        <span class="privada-opcion-estado">
+                            Próximamente
+                        </span>
+                    </button>
+
+                    <button
+                        class="privada-opcion"
+                        type="button"
+                        data-modulo-privado="Archivos"
+                    >
+                        <span class="privada-opcion-icono">
+                            ◫
+                        </span>
+
+                        <span class="privada-opcion-nombre">
+                            Archivos
+                        </span>
+
+                        <span class="privada-opcion-estado">
+                            Próximamente
+                        </span>
+                    </button>
+
+                    <button
+                        class="privada-opcion"
+                        type="button"
+                        data-modulo-privado="Mensajes"
+                    >
+                        <span class="privada-opcion-icono">
+                            ◌
+                        </span>
+
+                        <span class="privada-opcion-nombre">
+                            Mensajes
+                        </span>
+
+                        <span class="privada-opcion-estado">
+                            Próximamente
+                        </span>
+                    </button>
+                </div>
+
+                <div class="privada-separador"></div>
+
+                <button
+                    class="privada-boton-secundario"
+                    id="bloquearAreaPrivada"
+                    type="button"
+                >
+                    Bloquear área privada
+                </button>
+            </section>
+
+            <p
+                class="privada-estado"
+                id="estadoAreaPrivada"
+                aria-live="polite"
+            ></p>
+        </div>
+    </section>
+
     <!-- BURBUJAS -->
     <div id="bubbleLayer"></div>
 
@@ -1618,6 +2254,14 @@
             <p class="contador-acceso">
                 Acceso n.º <span id="numeroAcceso">00</span>
             </p>
+
+            <button
+                class="abrir-area-privada"
+                id="abrirAreaPrivada"
+                type="button"
+            >
+                Área privada
+            </button>
         </section>
     </main>
 
@@ -2025,6 +2669,739 @@
         );
 
         /* =========================
+           ÁREA PRIVADA CIFRADA
+        ========================= */
+
+        const abrirAreaPrivada =
+            document.getElementById(
+                "abrirAreaPrivada"
+            );
+
+        const areaPrivadaOverlay =
+            document.getElementById(
+                "areaPrivadaOverlay"
+            );
+
+        const cerrarAreaPrivada =
+            document.getElementById(
+                "cerrarAreaPrivada"
+            );
+
+        const usuarioAreaPrivada =
+            document.getElementById(
+                "usuarioAreaPrivada"
+            );
+
+        const formCrearClavePrivada =
+            document.getElementById(
+                "formCrearClavePrivada"
+            );
+
+        const formDesbloquearArea =
+            document.getElementById(
+                "formDesbloquearArea"
+            );
+
+        const menuAreaPrivada =
+            document.getElementById(
+                "menuAreaPrivada"
+            );
+
+        const nuevaClavePrivada =
+            document.getElementById(
+                "nuevaClavePrivada"
+            );
+
+        const confirmarClavePrivada =
+            document.getElementById(
+                "confirmarClavePrivada"
+            );
+
+        const clavePrivadaAcceso =
+            document.getElementById(
+                "clavePrivadaAcceso"
+            );
+
+        const botonCrearClavePrivada =
+            document.getElementById(
+                "botonCrearClavePrivada"
+            );
+
+        const botonDesbloquearArea =
+            document.getElementById(
+                "botonDesbloquearArea"
+            );
+
+        const bloquearAreaPrivada =
+            document.getElementById(
+                "bloquearAreaPrivada"
+            );
+
+        const estadoAreaPrivada =
+            document.getElementById(
+                "estadoAreaPrivada"
+            );
+
+        const ITERACIONES_PBKDF2 =
+            250000;
+
+        const nombreAlmacenPrivado =
+            "areaPrivadaCifrada_v1_" +
+            encodeURIComponent(
+                usuario.toLowerCase()
+            );
+
+        let claveCifradoActiva =
+            null;
+
+        usuarioAreaPrivada.textContent =
+            usuario;
+
+        abrirAreaPrivada.addEventListener(
+            "click",
+            mostrarAreaPrivada
+        );
+
+        cerrarAreaPrivada.addEventListener(
+            "click",
+            ocultarAreaPrivada
+        );
+
+        bloquearAreaPrivada.addEventListener(
+            "click",
+            bloquearAccesoPrivado
+        );
+
+        formCrearClavePrivada.addEventListener(
+            "submit",
+            crearClavePrivada
+        );
+
+        formDesbloquearArea.addEventListener(
+            "submit",
+            desbloquearAccesoPrivado
+        );
+
+        areaPrivadaOverlay.addEventListener(
+            "click",
+            (evento) => {
+                if (
+                    evento.target ===
+                    areaPrivadaOverlay
+                ) {
+                    ocultarAreaPrivada();
+                }
+            }
+        );
+
+        document.addEventListener(
+            "keydown",
+            (evento) => {
+                if (
+                    evento.key === "Escape" &&
+                    areaPrivadaOverlay.classList
+                        .contains("visible")
+                ) {
+                    ocultarAreaPrivada();
+                }
+            }
+        );
+
+        document
+            .querySelectorAll(
+                "[data-modulo-privado]"
+            )
+            .forEach(
+                (botonModulo) => {
+                    botonModulo.addEventListener(
+                        "click",
+                        () => {
+                            const modulo =
+                                botonModulo.dataset
+                                    .moduloPrivado;
+
+                            mostrarEstadoPrivado(
+                                modulo +
+                                " está protegido y preparado. " +
+                                "El contenido se añadirá más adelante.",
+                                "correcto"
+                            );
+                        }
+                    );
+                }
+            );
+
+        function mostrarAreaPrivada() {
+            areaPrivadaOverlay.classList.add(
+                "visible"
+            );
+
+            areaPrivadaOverlay.setAttribute(
+                "aria-hidden",
+                "false"
+            );
+
+            claveCifradoActiva =
+                null;
+
+            prepararPantallaPrivada();
+        }
+
+        function ocultarAreaPrivada() {
+            /*
+             * La clave derivada solamente vive en memoria.
+             * Al cerrar esta ventana se descarta.
+             */
+            claveCifradoActiva =
+                null;
+
+            areaPrivadaOverlay.classList.remove(
+                "visible"
+            );
+
+            areaPrivadaOverlay.setAttribute(
+                "aria-hidden",
+                "true"
+            );
+
+            limpiarCamposPrivados();
+            mostrarEstadoPrivado("");
+        }
+
+        function prepararPantallaPrivada() {
+            ocultarPantallasPrivadas();
+
+            if (!window.crypto?.subtle) {
+                mostrarEstadoPrivado(
+                    "Este navegador no permite utilizar el cifrado seguro necesario.",
+                    "error"
+                );
+
+                return;
+            }
+
+            const registro =
+                obtenerRegistroPrivado();
+
+            if (registro) {
+                formDesbloquearArea.classList
+                    .remove("oculto");
+
+                setTimeout(
+                    () => {
+                        clavePrivadaAcceso.focus();
+                    },
+                    80
+                );
+            } else {
+                formCrearClavePrivada.classList
+                    .remove("oculto");
+
+                setTimeout(
+                    () => {
+                        nuevaClavePrivada.focus();
+                    },
+                    80
+                );
+            }
+        }
+
+        function ocultarPantallasPrivadas() {
+            formCrearClavePrivada.classList.add(
+                "oculto"
+            );
+
+            formDesbloquearArea.classList.add(
+                "oculto"
+            );
+
+            menuAreaPrivada.classList.add(
+                "oculto"
+            );
+        }
+
+        function limpiarCamposPrivados() {
+            nuevaClavePrivada.value =
+                "";
+
+            confirmarClavePrivada.value =
+                "";
+
+            clavePrivadaAcceso.value =
+                "";
+        }
+
+        function obtenerRegistroPrivado() {
+            const contenido =
+                localStorage.getItem(
+                    nombreAlmacenPrivado
+                );
+
+            if (!contenido) {
+                return null;
+            }
+
+            try {
+                const registro =
+                    JSON.parse(contenido);
+
+                if (
+                    registro.version !== 1 ||
+                    !registro.salt ||
+                    !registro.iv ||
+                    !registro.verificador
+                ) {
+                    return null;
+                }
+
+                return registro;
+            } catch (error) {
+                return null;
+            }
+        }
+
+        async function crearClavePrivada(
+            evento
+        ) {
+            evento.preventDefault();
+
+            const claveNueva =
+                nuevaClavePrivada.value;
+
+            const confirmacion =
+                confirmarClavePrivada.value;
+
+            mostrarEstadoPrivado("");
+
+            if (claveNueva.length < 8) {
+                mostrarEstadoPrivado(
+                    "La contraseña privada debe tener al menos 8 caracteres.",
+                    "error"
+                );
+
+                nuevaClavePrivada.focus();
+                return;
+            }
+
+            if (claveNueva !== confirmacion) {
+                mostrarEstadoPrivado(
+                    "Las contraseñas privadas no coinciden.",
+                    "error"
+                );
+
+                confirmarClavePrivada.focus();
+                return;
+            }
+
+            cambiarEstadoBotonesPrivados(
+                true
+            );
+
+            try {
+                const sal =
+                    crypto.getRandomValues(
+                        new Uint8Array(16)
+                    );
+
+                const claveDerivada =
+                    await derivarClaveCifrado(
+                        claveNueva,
+                        sal,
+                        ITERACIONES_PBKDF2
+                    );
+
+                const iv =
+                    crypto.getRandomValues(
+                        new Uint8Array(12)
+                    );
+
+                const verificador =
+                    JSON.stringify({
+                        aplicacion:
+                            "Proyecto-0.1",
+                        propietario:
+                            usuario,
+                        tipo:
+                            "area-privada",
+                        version:
+                            1
+                    });
+
+                const cifrado =
+                    await crypto.subtle.encrypt(
+                        {
+                            name: "AES-GCM",
+                            iv
+                        },
+                        claveDerivada,
+                        new TextEncoder().encode(
+                            verificador
+                        )
+                    );
+
+                const registro = {
+                    version: 1,
+                    cifrado: "AES-GCM",
+                    derivacion:
+                        "PBKDF2-SHA-256",
+                    iteraciones:
+                        ITERACIONES_PBKDF2,
+                    salt:
+                        bytesABase64(sal),
+                    iv:
+                        bytesABase64(iv),
+                    verificador:
+                        bytesABase64(
+                            new Uint8Array(
+                                cifrado
+                            )
+                        )
+                };
+
+                localStorage.setItem(
+                    nombreAlmacenPrivado,
+                    JSON.stringify(registro)
+                );
+
+                claveCifradoActiva =
+                    claveDerivada;
+
+                limpiarCamposPrivados();
+                mostrarMenuPrivado();
+
+                mostrarEstadoPrivado(
+                    "Acceso privado creado y desbloqueado.",
+                    "correcto"
+                );
+            } catch (error) {
+                mostrarEstadoPrivado(
+                    "No fue posible crear el acceso cifrado en este navegador.",
+                    "error"
+                );
+            } finally {
+                cambiarEstadoBotonesPrivados(
+                    false
+                );
+            }
+        }
+
+        async function desbloquearAccesoPrivado(
+            evento
+        ) {
+            evento.preventDefault();
+
+            const claveIntroducida =
+                clavePrivadaAcceso.value;
+
+            const registro =
+                obtenerRegistroPrivado();
+
+            if (!registro) {
+                prepararPantallaPrivada();
+                return;
+            }
+
+            cambiarEstadoBotonesPrivados(
+                true
+            );
+
+            mostrarEstadoPrivado(
+                "Verificando contraseña..."
+            );
+
+            try {
+                const sal =
+                    base64ABytes(
+                        registro.salt
+                    );
+
+                const iv =
+                    base64ABytes(
+                        registro.iv
+                    );
+
+                const cifrado =
+                    base64ABytes(
+                        registro.verificador
+                    );
+
+                const claveDerivada =
+                    await derivarClaveCifrado(
+                        claveIntroducida,
+                        sal,
+                        registro.iteraciones ||
+                        ITERACIONES_PBKDF2
+                    );
+
+                const textoPlano =
+                    await crypto.subtle.decrypt(
+                        {
+                            name: "AES-GCM",
+                            iv
+                        },
+                        claveDerivada,
+                        cifrado
+                    );
+
+                const verificacion =
+                    JSON.parse(
+                        new TextDecoder().decode(
+                            textoPlano
+                        )
+                    );
+
+                if (
+                    verificacion.aplicacion !==
+                        "Proyecto-0.1" ||
+                    verificacion.propietario !==
+                        usuario ||
+                    verificacion.tipo !==
+                        "area-privada"
+                ) {
+                    throw new Error(
+                        "Verificación inválida"
+                    );
+                }
+
+                claveCifradoActiva =
+                    claveDerivada;
+
+                clavePrivadaAcceso.value =
+                    "";
+
+                mostrarMenuPrivado();
+
+                mostrarEstadoPrivado(
+                    "Acceso privado desbloqueado.",
+                    "correcto"
+                );
+            } catch (error) {
+                claveCifradoActiva =
+                    null;
+
+                clavePrivadaAcceso.value =
+                    "";
+
+                mostrarEstadoPrivado(
+                    "Contraseña privada incorrecta.",
+                    "error"
+                );
+
+                clavePrivadaAcceso.focus();
+            } finally {
+                cambiarEstadoBotonesPrivados(
+                    false
+                );
+            }
+        }
+
+        function mostrarMenuPrivado() {
+            ocultarPantallasPrivadas();
+
+            menuAreaPrivada.classList.remove(
+                "oculto"
+            );
+        }
+
+        function bloquearAccesoPrivado() {
+            claveCifradoActiva =
+                null;
+
+            limpiarCamposPrivados();
+            mostrarEstadoPrivado(
+                "Área privada bloqueada."
+            );
+
+            prepararPantallaPrivada();
+        }
+
+        function cambiarEstadoBotonesPrivados(
+            bloqueados
+        ) {
+            botonCrearClavePrivada.disabled =
+                bloqueados;
+
+            botonDesbloquearArea.disabled =
+                bloqueados;
+        }
+
+        function mostrarEstadoPrivado(
+            mensaje,
+            tipo = ""
+        ) {
+            estadoAreaPrivada.textContent =
+                mensaje;
+
+            estadoAreaPrivada.className =
+                "privada-estado" +
+                (
+                    tipo
+                        ? " " + tipo
+                        : ""
+                );
+        }
+
+        async function derivarClaveCifrado(
+            contrasena,
+            sal,
+            iteraciones
+        ) {
+            const materialClave =
+                await crypto.subtle.importKey(
+                    "raw",
+                    new TextEncoder().encode(
+                        contrasena
+                    ),
+                    "PBKDF2",
+                    false,
+                    [
+                        "deriveKey"
+                    ]
+                );
+
+            return crypto.subtle.deriveKey(
+                {
+                    name: "PBKDF2",
+                    hash: "SHA-256",
+                    salt: sal,
+                    iterations:
+                        iteraciones
+                },
+                materialClave,
+                {
+                    name: "AES-GCM",
+                    length: 256
+                },
+                false,
+                [
+                    "encrypt",
+                    "decrypt"
+                ]
+            );
+        }
+
+        function bytesABase64(
+            bytes
+        ) {
+            let binario =
+                "";
+
+            for (
+                let indice = 0;
+                indice < bytes.length;
+                indice += 1
+            ) {
+                binario +=
+                    String.fromCharCode(
+                        bytes[indice]
+                    );
+            }
+
+            return btoa(binario);
+        }
+
+        function base64ABytes(
+            textoBase64
+        ) {
+            const binario =
+                atob(textoBase64);
+
+            const bytes =
+                new Uint8Array(
+                    binario.length
+                );
+
+            for (
+                let indice = 0;
+                indice < binario.length;
+                indice += 1
+            ) {
+                bytes[indice] =
+                    binario.charCodeAt(
+                        indice
+                    );
+            }
+
+            return bytes;
+        }
+
+        /*
+         * Estas funciones quedan preparadas para cifrar
+         * notas, archivos pequeños o mensajes cuando
+         * esos módulos sean construidos.
+         */
+        async function cifrarDatoPrivado(
+            contenido
+        ) {
+            if (!claveCifradoActiva) {
+                throw new Error(
+                    "El área privada está bloqueada."
+                );
+            }
+
+            const iv =
+                crypto.getRandomValues(
+                    new Uint8Array(12)
+                );
+
+            const cifrado =
+                await crypto.subtle.encrypt(
+                    {
+                        name: "AES-GCM",
+                        iv
+                    },
+                    claveCifradoActiva,
+                    new TextEncoder().encode(
+                        JSON.stringify(
+                            contenido
+                        )
+                    )
+                );
+
+            return {
+                iv:
+                    bytesABase64(iv),
+                contenido:
+                    bytesABase64(
+                        new Uint8Array(
+                            cifrado
+                        )
+                    )
+            };
+        }
+
+        async function descifrarDatoPrivado(
+            registroCifrado
+        ) {
+            if (!claveCifradoActiva) {
+                throw new Error(
+                    "El área privada está bloqueada."
+                );
+            }
+
+            const textoPlano =
+                await crypto.subtle.decrypt(
+                    {
+                        name: "AES-GCM",
+                        iv:
+                            base64ABytes(
+                                registroCifrado.iv
+                            )
+                    },
+                    claveCifradoActiva,
+                    base64ABytes(
+                        registroCifrado.contenido
+                    )
+                );
+
+            return JSON.parse(
+                new TextDecoder().decode(
+                    textoPlano
+                )
+            );
+        }
+
+        /* =========================
            CERRAR SESIÓN
         ========================= */
 
@@ -2039,6 +3416,9 @@
         );
 
         function cerrarSesion() {
+            claveCifradoActiva =
+                null;
+
             /*
              * Elimina la sesión temporal.
              */
